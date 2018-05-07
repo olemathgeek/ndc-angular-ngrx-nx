@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'login-form',
+  selector: 'app-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss']
 })
-export class LoginFormComponent implements OnInit {
+export class LoginFormComponent {
+  @Output() submit = new EventEmitter<any>();
 
-  constructor() { }
-
-  ngOnInit() {
+  login(authenticate: any) {
+    this.submit.emit(authenticate);
   }
 
 }

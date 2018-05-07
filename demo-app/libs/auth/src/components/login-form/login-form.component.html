@@ -1,3 +1,6 @@
 <p>
-  login-form works!
+  This is the login form. Super fun.
 </p>
+<input #username type="text" placeholder="username">
+<input #password type="text" placeholder="password">
+<button (click)="login({username: username.value, password: password.value})">Login</button>
