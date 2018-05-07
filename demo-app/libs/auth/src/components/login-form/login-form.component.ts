@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
+import { Authenticate } from '@demo-app/data-models';
 
 @Component({
   selector: 'app-login-form',
@@ -6,9 +7,9 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent {
-  @Output() submit = new EventEmitter<any>();
+  @Output() submit = new EventEmitter<Authenticate>();
 
-  login(authenticate: any) {
+  login(authenticate: Authenticate) {
     this.submit.emit(authenticate);
   }
 
