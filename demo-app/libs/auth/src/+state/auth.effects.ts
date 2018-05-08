@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as authActions from './auth.actions';
 import { AuthState } from './auth.reducer';
 import { DataPersistence } from '@nrwl/nx';
 import { AuthActionTypes } from './auth.actions';
 import { AuthService } from '@demo-app/auth/src/services/auth/auth.service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { User } from '@demo-app/data-models';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
@@ -23,9 +24,17 @@ export class AuthEffects {
     }
   });
 
+  @Effect({dispatch: false})
+  navigateToProfile$ = this.actions$.pipe(
+    ofType(AuthActionTypes.LoginSuccess),
+    map((action: authActions.LoginSuccessAction) => action.payload),
+    tap((user: User) => this.router.navigate([`/user-profile/${user.id}`]))
+  )
+
   constructor(
     private actions$: Actions,
     private dataPersistence: DataPersistence<AuthState>,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 }
