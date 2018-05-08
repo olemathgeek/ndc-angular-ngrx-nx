@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { User } from '@demo-app/data-models';
-import { UsersState, selectAllUsers, LoadUsersAction } from '@demo-app/admin-portal/users';
+import { UsersState } from '../../+state/users.reducer';
+import { selectAllUsers } from '../../+state';
 import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
@@ -15,7 +16,6 @@ export class UserListComponent implements OnInit {
   constructor(private router: Router, private store: Store<UsersState>) {}
 
   ngOnInit() {
-    // this.store.  dispatch(new LoadUsersAction());
     this.users$ = this.store.select(selectAllUsers);
   }
 
