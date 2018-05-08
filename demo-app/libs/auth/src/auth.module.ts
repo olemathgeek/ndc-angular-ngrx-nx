@@ -9,12 +9,16 @@ import { MaterialModule } from '@demo-app/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthGuard } from '@demo-app/auth/src/guards/auth/auth.guard';
 import { AuthInterceptor } from '@demo-app/auth/src/interceptors/auth/auth.interceptor';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { authReducer, initialState as authInitialState } from './+state/auth.reducer';
+import { AuthEffects } from './+state/auth.effects';
 
 export const authRoutes: Route[] = [{ path: 'login', component: LoginComponent }];
 const COMPONENTS = [LoginComponent, LoginFormComponent];
 
 @NgModule({
-  imports: [CommonModule, RouterModule, HttpClientModule, MaterialModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, HttpClientModule, MaterialModule, ReactiveFormsModule, StoreModule.forFeature('auth', authReducer, { initialState: authInitialState }), EffectsModule.forFeature([AuthEffects])],
   declarations: [COMPONENTS],
   exports: [COMPONENTS],
   providers: [
@@ -24,7 +28,8 @@ const COMPONENTS = [LoginComponent, LoginFormComponent];
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    AuthEffects
 ]
 })
 export class AuthModule {}
