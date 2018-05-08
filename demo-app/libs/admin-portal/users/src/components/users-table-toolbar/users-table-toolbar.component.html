@@ -1,0 +1,10 @@
+<mat-toolbar>
+  <mat-form-field >
+    <mat-select [value]="selectedCountry" (selectionChange)="onFilter($event.value)" >
+      <mat-option>None</mat-option>
+      <mat-option value="australia" >Australia</mat-option>
+      <mat-option value="england">England</mat-option>
+      <mat-option value="usa">USA</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-toolbar>

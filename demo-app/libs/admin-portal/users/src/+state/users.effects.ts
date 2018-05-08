@@ -9,6 +9,8 @@ import { UsersService } from './../services/users.service';
 import { map } from 'rxjs/operators';
 import { User } from '@demo-app/data-models';
 import { UsersState } from './../../src/+state/users.reducer';
+import { ActivatedRouteSnapshot } from '@angular/router';
+import { UserListComponent } from './../../../users/src/containers/user-list/user-list.component';
 
 @Injectable()
 export class UsersEffects {
@@ -30,6 +32,20 @@ export class UsersEffects {
         new usersActions.LoadUsersFailAction(error)
     }
   );
+
+  @Effect()
+  loadUsersFromRoute = this.dataPersistence.navigation(UserListComponent, {
+    run: (a: ActivatedRouteSnapshot, state: UsersState) => {
+      return this.usersService
+        .getUsers(a.queryParams['country'])
+        .pipe(
+          map((users: User[]) => new usersActions.LoadUsersSuccessAction(users))
+        );
+    },
+    onError: (a: ActivatedRouteSnapshot, e: any) => {
+      return new usersActions.LoadUsersFailAction(e);
+    }
+  });
 
   constructor(
     private actions: Actions,

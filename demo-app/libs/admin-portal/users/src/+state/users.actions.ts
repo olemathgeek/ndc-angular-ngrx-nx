@@ -2,10 +2,10 @@ import { Action } from '@ngrx/store';
 import { User } from '@demo-app/data-models';
 
 export enum UsersActionTypes {
-
   LoadUsers = '[Users] Load',
-  LoadUsersSuccess = '[Users] Load Success',
-  LoadUsersFail = '[Users] Load Fail'
+  LoadUsersSuccess = '[Users] Load Sucess',
+  LoadUsersFail = '[Users] Load Fail',
+  SetUsersFilter = '[Users] Set Filter'
 }
 
 export class LoadUsersAction implements Action {
@@ -18,8 +18,17 @@ export class LoadUsersSuccessAction implements Action {
 }
 
 export class LoadUsersFailAction implements Action {
-  readonly type = UsersActionTypes.LoadUsersFail;
+  readonly type = UsersActionTypes.LoadUsersSuccess;
   constructor(public payload: any) {}
 }
 
-export type UsersActions = LoadUsersAction | LoadUsersSuccessAction | LoadUsersFailAction;
+export class SetUsersFiltersAction {
+  readonly type = UsersActionTypes.SetUsersFilter;
+  constructor(public payload: string) {}
+}
+
+export type UsersActions =
+  | LoadUsersAction
+  | LoadUsersSuccessAction
+  | LoadUsersFailAction
+  | SetUsersFiltersAction;

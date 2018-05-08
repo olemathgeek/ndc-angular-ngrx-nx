@@ -11,6 +11,7 @@ import { User } from '@demo-app/data-models';
 export interface UsersData extends EntityState<User> {
   selectedUserId: number;
   loading: boolean;
+  selectedCountry: string
 }
 
 /**
@@ -25,7 +26,8 @@ export const adapter: EntityAdapter<User> = createEntityAdapter<User>();
 
 export const initialState: UsersData = adapter.getInitialState({
   selectedUserId: null,
-  loading: false
+  loading: false,
+  selectedCountry: 'none'
 });
 
 export function usersReducer(

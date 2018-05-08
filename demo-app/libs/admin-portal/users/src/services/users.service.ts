@@ -4,11 +4,13 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 
 export class UsersService {
+  constructor(private httpClient: HttpClient) {}
 
-  constructor(private httpClient: HttpClient) { }
+  getUsers(country: string = null) {
+    const url = country !== null
+      ? `http://localhost:3000/users?country=${country}`
+      : `http://localhost:3000/users`;
 
-  getUsers() {
-    return this.httpClient.get(`http://localhost:3000/users`);
+    return this.httpClient.get(url);
   }
-
 }
