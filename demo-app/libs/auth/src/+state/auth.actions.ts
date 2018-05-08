@@ -1,22 +1,25 @@
 import { Action } from '@ngrx/store';
+import { User, Authenticate } from '@demo-app/data-models';
 
 export enum AuthActionTypes {
-  AuthAction = '[Auth] Action',
-  LoadAuth = '[Auth] Load Data',
-  AuthLoaded = '[Auth] Data Loaded'
+  Login = '[AuthState] Login',
+  LoginSuccess = '[AuthState] Login Success',
+  LoginFail = '[AuthState] Login Fail'
 }
 
-export class Auth implements Action {
-  readonly type = AuthActionTypes.AuthAction;
+export class LoginAction implements Action {
+  readonly type = AuthActionTypes.Login;
+  constructor(public payload: Authenticate) {}
 }
-export class LoadAuth implements Action {
-  readonly type = AuthActionTypes.LoadAuth;
+
+export class LoginSuccessAction implements Action {
+  readonly type = AuthActionTypes.LoginSuccess;
+  constructor(public payload: User) {}
+}
+
+export class LoginFailAction implements Action {
+  readonly type = AuthActionTypes.LoginFail;
   constructor(public payload: any) {}
 }
 
-export class AuthLoaded implements Action {
-  readonly type = AuthActionTypes.AuthLoaded;
-  constructor(public payload: any) {}
-}
-
-export type AuthActions = Auth | LoadAuth | AuthLoaded;
+export type AuthActions = LoginAction | LoginFailAction | LoginSuccessAction;

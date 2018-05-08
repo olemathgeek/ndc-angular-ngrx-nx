@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import {
-  AuthActions,
-  AuthActionTypes,
-  LoadAuth,
-  AuthLoaded
-} from './auth.actions';
+import * as authActions from './auth.actions';
 import { AuthState } from './auth.reducer';
 import { DataPersistence } from '@nrwl/nx';
+import { AuthActionTypes } from './auth.actions';
+import { AuthService } from '@demo-app/auth/src/services/auth/auth.service';
+import { map } from 'rxjs/operators';
+import { User } from '@demo-app/data-models';
 
 @Injectable()
 export class AuthEffects {
-  @Effect() effect$ = this.actions$.ofType(AuthActionTypes.AuthAction);
 
   @Effect()
-  loadAuth$ = this.dataPersistence.fetch(AuthActionTypes.LoadAuth, {
-    run: (action: LoadAuth, state: AuthState) => {
-      return new AuthLoaded(state);
+  loadAuth$ = this.dataPersistence.fetch(AuthActionTypes.Login, {
+    run: (action: authActions.LoginAction) => {
+      return this.authService.login(action.payload)
+      .pipe(map((user: User) => (new authActions.LoginSuccessAction(user))))
     },
 
-    onError: (action: LoadAuth, error) => {
-      console.error('Error', error);
+    onError: (action: authActions.LoginAction, error) => {
+      return new authActions.LoginFailAction(error);
     }
   });
 
   constructor(
     private actions$: Actions,
-    private dataPersistence: DataPersistence<AuthState>
+    private dataPersistence: DataPersistence<AuthState>,
+    private authService: AuthService
   ) {}
 }
